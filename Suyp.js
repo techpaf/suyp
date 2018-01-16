@@ -11,7 +11,6 @@ var Suyp = function( $container, options ){
 	this.touchEnabled = options.touchEnabled || true;
 	this.crop = options.crop;
 
-	console.log(options.crop)
 	this.buildDom();
 }
 
@@ -27,16 +26,9 @@ Suyp.prototype.buildDom = function(){
 	// Creating slides
 	for( var i = 0; i < this.slides.length; i++ ){
 		var cropClass = (this.crop)?'cover':'contain';
-
-	console.log(this.crop)
-
 		this.$slideContainer.append('<div class="slide ' + cropClass + '"><img src="' + this.slides[i] + '" alt=""></div>');
-
 		this.$container.find('.dots').append('<a href="#"><span></span></a>');
 	}
-
-	// Creating the next arrow
-	//this.$container.append('')
 
 	// Binding events
 	this.bindEvents();
@@ -47,7 +39,6 @@ Suyp.prototype.buildDom = function(){
 
 Suyp.prototype.bindEvents = function(){
 	var self = this;
-		console.log('next')
 
 	// Updating dots
 	this.$container.find('.dots a').bind('click', function(e){
@@ -69,10 +60,6 @@ Suyp.prototype.bindEvents = function(){
 
 		e.preventDefault();
 	});
-
-	this.$container.find('a.btn').each(function(){
-		console.log('yo')
-	})
 }
 
 Suyp.prototype.render = function(){

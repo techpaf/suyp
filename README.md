@@ -1,9 +1,6 @@
 # S.U.Y.P
 ### Show Us Your ~~Pugs~~ Picts
-# /!\ W.I.P /!\
-
-Thing that makes stuff slide.
-### W.I.P
+###### /!\ W.I.P /!\
 
 ```
 var suyp;
