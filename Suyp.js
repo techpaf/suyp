@@ -10,6 +10,11 @@ var Suyp = function( $container, options ){
 	this.hideOverflow = options.hideOverflow || true;
 	this.touchEnabled = options.touchEnabled || true;
 	this.crop = options.crop;
+	this.auto = options.auto || false;
+	this.transitionDelay = options.transitionDelay || 1000;
+	this.transitionDuration = options.transitionDuration || options.transitionDelay * 0.25;
+	this.loopTO;
+	this.firstRender = true;
 
 	this.buildDom();
 }
@@ -42,38 +47,84 @@ Suyp.prototype.bindEvents = function(){
 
 	// Updating dots
 	this.$container.find('.dots a').bind('click', function(e){
-		self.currentSlide = $(this).index();
-		self.render();
+		if( !self.auto || self.auto ){
+			self.currentSlide = $(this).index();
+			self.render();
+		}
 		e.preventDefault();
 	});
 
-	this.$container.find('a.btn').bind('click', function(e){
-		
-		if($(this).hasClass('next')){
-			self.currentSlide++;
-			if( self.currentSlide > self.$container.find('.slide').length-1 ){
-				// TO DO : if self.
-				self.currentSlide = 0;
-			}
+	this.$container.find('a.btn').bind('click', function(e){		
+		if( $(this).hasClass('next') ){
+			self.next();
 		}
-		self.render();
+		else if( $(this).hasClass('prev') ){
+			self.prev();
+		}
 
 		e.preventDefault();
 	});
 }
 
-Suyp.prototype.render = function(){
-	// Rendering 'raw' transition types
-	if( this.mode == 'raw' ){
-		this.$container.find('.slide').hide();
-		this.$container.find('.slide').eq(this.currentSlide).show();
+Suyp.prototype.prev = function(){
+	var self = this;
+	
+	self.currentSlide--;
+	if( self.currentSlide < 0 ){
+		self.currentSlide = self.$container.find('.slide').length-1;
 	}
-	else if( this.mode == 'fade' ){
-		this.$container.find('.slide').fadeOut();
-		this.$container.find('.slide').eq(this.currentSlide).fadeIn();
+	self.render();
+}
+
+Suyp.prototype.next = function(){
+	var self = this;
+	
+	self.currentSlide++;
+	if( self.currentSlide > self.$container.find('.slide').length-1 ){
+		// TO DO : if self.
+		self.currentSlide = 0;
+	}
+	self.render();
+}
+
+Suyp.prototype.render = function(){
+	var self = this;
+
+	if( !this.firstRender ){
+		// Rendering 'raw' transition types
+		if( this.mode == 'raw' ){
+			this.$container.find('.slide').hide();
+			this.$container.find('.slide').eq(this.currentSlide).show();
+		}
+		else if( this.mode == 'fade' ){
+			this.$container.find('.slide').fadeOut();
+			this.$container.find('.slide').eq(this.currentSlide).fadeIn();
+		}
+		else if( this.mode == 'slide-h' ){
+			var $cs = this.$container.find('.slide').fadeOut();
+			var $ns = this.$container.find('.slide').eq(this.currentSlide).fadeIn();
+		}
+	}
+	else{
+		// Rendering 'raw' transition types
+		if( this.mode == 'fade' ){
+			this.$container.find('.slide').hide();
+			this.$container.find('.slide').eq(this.currentSlide).show();
+		}
+
+		this.firstRender = false;
 	}
 
 	// Updating dots
 	this.$container.find('.dots a').removeClass('selected');
 	this.$container.find('.dots a').eq(this.currentSlide).addClass('selected');
+
+	if( this.auto ){
+		if( this.loopTO ){
+			clearTimeout( this.loopTO );
+		}
+		this.loopTO = setTimeout(function(){
+			self.next();
+		}, this.transitionDelay);
+	}
 }
