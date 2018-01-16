@@ -1,5 +1,8 @@
-# suyp
-## Thing that makes stuff slide.
+# S.U.Y.P
+### Show Us Your ~~ Pugs ~~ Picts
+# /!\ W.I.P /!\
+
+Thing that makes stuff slide.
 ### W.I.P
 
 ```
@@ -12,8 +15,6 @@ var picturesUrl = [
 ];
 
 $(function(){
-	console.log('Ready');
-
 	suyp = new Suyp( $('#head .slider'), {
 		'slides': picturesUrl,
 		'crop': true,
