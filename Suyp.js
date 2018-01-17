@@ -89,10 +89,15 @@ Suyp.prototype.next = function(){
 
 Suyp.prototype.prepare = function(){
 	var self = this;
+
+	// Reset props
+	this.$container.find('.slide').each(function(index){
+		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": 0 } );
+	});
 	
 	if( this.mode == 'raw' || this.mode == 'fade' ){
 		this.$container.find('.slide').each(function(index){
-			if( index != this.currentSlide ){
+			if( index != self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 0 } );
 			}
 			else{
@@ -102,26 +107,26 @@ Suyp.prototype.prepare = function(){
 	}
 	else if( this.mode == 'slide-h' ){
 		this.$container.find('.slide').each(function(index){
-			if( index < this.currentSlide ){
+			if( index < self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'x': '-100%', 'y': '0%', 'ease': Expo.easeOut } );
 			}
-			else if( index > this.currentSlide ){
+			else if( index > self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'x': '100%', 'y': '0%', 'ease': Expo.easeOut } );
 			}
-			else if( index == this.currentSlide ){
+			else if( index == self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
 			}
 		});
 	}
 	else if( this.mode == 'slide-v' ){
 		this.$container.find('.slide').each(function(index){
-			if( index < this.currentSlide ){
+			if( index < self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '-100%', 'ease': Expo.easeOut } );
 			}
-			else if( index > this.currentSlide ){
+			else if( index > self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '100%', 'ease': Expo.easeOut } );
 			}
-			else if( index == this.currentSlide ){
+			else if( index == self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
 			}
 		});

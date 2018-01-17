@@ -13,8 +13,8 @@
 
 		#suyp{
 			position: absolute;
-			width: 850px;
-			height: 500px;
+			width: 900px;
+			height: 450px;
 			overflow: hidden;
 			top: 50%;
 			left: 50%;
@@ -47,10 +47,24 @@
 			height: 100%;
 			overflow: hidden;
 			position: absolute;
+			background: #fff;
+		}
+
+		#suyp .slide.cover img{
+			width: auto;
+			height: auto;
+			min-width: 100%;
+			min-height: 100%;
+		}
+
+		#suyp .slide.contain img{
+			width: auto;
+			height: auto;
+			max-width: 100%;
+			max-height: 100%;
 		}
 
 		#suyp .slide img{
-			width: 100%;
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -86,6 +100,9 @@
 		suyp = new Suyp( $('#suyp'), {
 			'slides': picturesUrl,
 			'crop': true,
+			'mode': 'raw',
+			'mode': 'fade',
+			'mode': 'slide-h',
 			'mode': 'slide-v',
 			'auto': true,
 			'transitionDelay': 2000
