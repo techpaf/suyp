@@ -39,7 +39,7 @@ Suyp.prototype.buildDom = function(){
 	this.bindEvents();
 
 	// Render
-	this.render();
+	this.prepare();
 }
 
 Suyp.prototype.bindEvents = function(){
@@ -87,32 +87,98 @@ Suyp.prototype.next = function(){
 	self.render();
 }
 
+Suyp.prototype.prepare = function(){
+	var self = this;
+	
+	if( this.mode == 'raw' || this.mode == 'fade' ){
+		this.$container.find('.slide').each(function(index){
+			if( index != this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0 } );
+			}
+			else{
+				TweenMax.set( $(this), { 'opacity': 1 } );
+			}
+		});
+	}
+	else if( this.mode == 'slide-h' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '-100%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+			else if( index > this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '100%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+			else if( index == this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+		});
+	}
+	else if( this.mode == 'slide-v' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '-100%', 'ease': Expo.easeOut } );
+			}
+			else if( index > this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '100%', 'ease': Expo.easeOut } );
+			}
+			else if( index == this.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+		});
+	}
+
+	self.render();
+}
+
 Suyp.prototype.render = function(){
 	var self = this;
 
-	if( !this.firstRender ){
-		// Rendering 'raw' transition types
-		if( this.mode == 'raw' ){
-			this.$container.find('.slide').hide();
-			this.$container.find('.slide').eq(this.currentSlide).show();
-		}
-		else if( this.mode == 'fade' ){
-			this.$container.find('.slide').fadeOut();
-			this.$container.find('.slide').eq(this.currentSlide).fadeIn();
-		}
-		else if( this.mode == 'slide-h' ){
-			var $cs = this.$container.find('.slide').fadeOut();
-			var $ns = this.$container.find('.slide').eq(this.currentSlide).fadeIn();
-		}
+	// Rendering 'raw' transition types
+	if( this.mode == 'raw' ){
+		this.$container.find('.slide').each(function(index){
+			if( index != self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0 } );
+			}
+			else{
+				TweenMax.set( $(this), { 'opacity': 1 } );
+			}
+		});
 	}
-	else{
-		// Rendering 'raw' transition types
-		if( this.mode == 'fade' ){
-			this.$container.find('.slide').hide();
-			this.$container.find('.slide').eq(this.currentSlide).show();
-		}
-
-		this.firstRender = false;
+	else if( this.mode == 'fade' ){
+		this.$container.find('.slide').each(function(index){
+			if( index != self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, ease: Expo.easeOut } );
+			}
+			else{
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, ease: Expo.easeOut } );
+			}
+		});
+	}
+	else if( this.mode == 'slide-h' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'x': '-100%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'x': '100%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+		});
+	}
+	else if( this.mode == 'slide-v' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'x': '0%', 'y': '-100%', 'ease': Expo.easeOut } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'x': '0%', 'y': '100%', 'ease': Expo.easeOut } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+			}
+		});
 	}
 
 	// Updating dots
