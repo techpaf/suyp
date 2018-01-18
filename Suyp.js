@@ -11,8 +11,9 @@ var Suyp = function( $container, options ){
 	this.touchEnabled = options.touchEnabled || true;
 	this.crop = options.crop;
 	this.auto = options.auto || false;
-	this.transitionDelay = options.transitionDelay || 1000;
-	this.transitionDuration = options.transitionDuration || options.transitionDelay * 0.25;
+	this.pictureDisplayTime = options.pictureDisplayTime || 1000;
+	this.transitionDelay = options.transitionDelay || 0;
+	this.transitionDuration = options.transitionDuration || 500;
 	this.loopTO;
 	this.firstRender = true;
 
@@ -22,6 +23,7 @@ var Suyp = function( $container, options ){
 Suyp.prototype.buildDom = function(){
 	// Containers customization / creation
 	this.$container.addClass('suyp');
+	this.$container.addClass( this.mode );
 	this.$container.append('<div class="slide-container ' + this.mode + '"></div>');
 	this.$slideContainer = this.$container.find('.slide-container');
 
@@ -92,7 +94,7 @@ Suyp.prototype.prepare = function(){
 
 	// Reset props
 	this.$container.find('.slide').each(function(index){
-		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": 0 } );
+		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": "0", "scale": "1" } );
 	});
 	
 	if( this.mode == 'raw' || this.mode == 'fade' ){
@@ -108,26 +110,52 @@ Suyp.prototype.prepare = function(){
 	else if( this.mode == 'slide-h' ){
 		this.$container.find('.slide').each(function(index){
 			if( index < self.currentSlide ){
-				TweenMax.set( $(this), { 'opacity': 1, 'x': '-100%', 'y': '0%', 'ease': Expo.easeOut } );
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '-100%', 'y': '0%' } );
 			}
 			else if( index > self.currentSlide ){
-				TweenMax.set( $(this), { 'opacity': 1, 'x': '100%', 'y': '0%', 'ease': Expo.easeOut } );
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '100%', 'y': '0%' } );
 			}
 			else if( index == self.currentSlide ){
-				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%' } );
 			}
 		});
 	}
 	else if( this.mode == 'slide-v' ){
 		this.$container.find('.slide').each(function(index){
 			if( index < self.currentSlide ){
-				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '-100%', 'ease': Expo.easeOut } );
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '-100%' } );
 			}
 			else if( index > self.currentSlide ){
-				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '100%', 'ease': Expo.easeOut } );
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '100%' } );
 			}
 			else if( index == self.currentSlide ){
-				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+				TweenMax.set( $(this), { 'opacity': 1, 'x': '0%', 'y': '0%' } );
+			}
+		});
+	}
+	else if( this.mode == 'zoom-in' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'scale': 1.05 } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'scale': 0.95 } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'scale': 1 } );
+			}
+		});
+	}
+	else if( this.mode == 'zoom-out' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'scale': 0.95 } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'scale': 1.05 } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'scale': 1 } );
 			}
 		});
 	}
@@ -155,7 +183,7 @@ Suyp.prototype.render = function(){
 				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, ease: Expo.easeOut } );
 			}
 			else{
-				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, ease: Expo.easeOut } );
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, ease: Expo.easeOut, delay: self.transitionDelay/1000 } );
 			}
 		});
 	}
@@ -168,7 +196,7 @@ Suyp.prototype.render = function(){
 				TweenMax.to( $(this), self.transitionDuration/1000, { 'x': '100%', 'y': '0%', 'ease': Expo.easeOut } );
 			}
 			else if( index == self.currentSlide ){
-				TweenMax.to( $(this), self.transitionDuration/1000, { 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'x': '0%', 'y': '0%', 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
 			}
 		});
 	}
@@ -181,7 +209,33 @@ Suyp.prototype.render = function(){
 				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'x': '0%', 'y': '100%', 'ease': Expo.easeOut } );
 			}
 			else if( index == self.currentSlide ){
-				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut } );
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'x': '0%', 'y': '0%', 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
+			}
+		});
+	}
+	else if( this.mode == 'zoom-in' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'scale': 1.05, 'ease': Expo.easeOut } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'scale': 0.95, 'ease': Expo.easeOut } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'scale': 1, 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
+			}
+		});
+	}
+	else if( this.mode == 'zoom-out' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'scale': 0.95, 'ease': Expo.easeOut } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'scale': 1.05, 'ease': Expo.easeOut } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'scale': 1, 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
 			}
 		});
 	}
@@ -196,6 +250,6 @@ Suyp.prototype.render = function(){
 		}
 		this.loopTO = setTimeout(function(){
 			self.next();
-		}, this.transitionDelay);
+		}, this.pictureDisplayTime);
 	}
 }
