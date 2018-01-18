@@ -89,12 +89,17 @@ Suyp.prototype.next = function(){
 	self.render();
 }
 
+Suyp.prototype.setMode = function( mode ){
+	this.mode = mode || 'fade';
+	this.prepare();
+}
+
 Suyp.prototype.prepare = function(){
 	var self = this;
 
 	// Reset props
 	this.$container.find('.slide').each(function(index){
-		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": "0", "scale": "1", "transformOrigin": 'center center' } );
+		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": "0", "scale": "1", "transformOrigin": 'center center', "rotationX": 0, "rotationY": 0, "rotationZ": 0, } );
 	});
 	
 	if( this.mode == 'raw' || this.mode == 'fade' ){
