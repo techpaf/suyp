@@ -94,7 +94,7 @@ Suyp.prototype.prepare = function(){
 
 	// Reset props
 	this.$container.find('.slide').each(function(index){
-		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": "0", "scale": "1" } );
+		TweenMax.set( $(this), { "x": "0%", "y": "0%", "opacity": "0", "scale": "1", "transformOrigin": 'center center' } );
 	});
 	
 	if( this.mode == 'raw' || this.mode == 'fade' ){
@@ -156,6 +156,32 @@ Suyp.prototype.prepare = function(){
 			}
 			else if( index == self.currentSlide ){
 				TweenMax.set( $(this), { 'opacity': 1, 'scale': 1 } );
+			}
+		});
+	}
+	else if( this.mode == 'rise' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'transformOrigin': 'center bottom', 'force3D': true, 'rotationX': -90 } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'transformOrigin': 'center bottom', 'force3D': true, 'rotationX': 90 } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'transformOrigin': 'center bottom', 'force3D': true, 'rotationX': 0 } );
+			}
+		});
+	}
+	else if( this.mode == 'rise-reverted' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'transformOrigin': 'center bottom', 'force3D': true, 'rotationX': 90 } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 0, 'transformOrigin': 'center bottom', 'force3D': true, 'rotationX': -90 } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.set( $(this), { 'opacity': 1, 'transformOrigin': 'center bottom', 'force3D': true, 'rotationX': 0 } );
 			}
 		});
 	}
@@ -236,6 +262,32 @@ Suyp.prototype.render = function(){
 			}
 			else if( index == self.currentSlide ){
 				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'scale': 1, 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
+			}
+		});
+	}
+	else if( this.mode == 'rise' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'force3D': true, 'rotationX': -90 } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'force3D': true, 'rotationX': 90 } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'force3D': true, 'rotationX': 0, 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
+			}
+		});
+	}
+	else if( this.mode == 'rise-reverted' ){
+		this.$container.find('.slide').each(function(index){
+			if( index < self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'force3D': true, 'rotationX': 90 } );
+			}
+			else if( index > self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 0, 'force3D': true, 'rotationX': -90 } );
+			}
+			else if( index == self.currentSlide ){
+				TweenMax.to( $(this), self.transitionDuration/1000, { 'opacity': 1, 'force3D': true, 'rotationX': 0, 'ease': Expo.easeOut, delay: self.transitionDelay/1000 } );
 			}
 		});
 	}

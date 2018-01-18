@@ -7,6 +7,8 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	box-shadow: 0 0 250px #000;
+	perspective: 1000px;
+	transform-style: preserve-3d;
 }
 
 .suyp.zoom-in, .suyp.zoom-out{
@@ -40,10 +42,11 @@
 	height: 100%;
 	overflow: hidden;
 	position: absolute;
-	background: #fff;
+	background: #fff;	
+	perspective: 1000;
 }
 
-.suyp.zoom-in .slide, .suyp.zoom-out .slide{;
+.suyp.zoom-in .slide, .suyp.zoom-out .slide{
 	background: none;
 }
 
