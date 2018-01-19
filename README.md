@@ -2,24 +2,21 @@
 #### /!\ W.I.P, even not an alpha /!\
 
 #### HOW IT WORKS :
-See exemple.html for a full exemple, but in short :
+See exemple.html for a full exemple, but in short you have to :
+- load suyp.css that defines some basic CSS rules • easy to customize
+- load suyp.js
+- instanciate the class like that :
 
 ```
-var suyp;
-var picturesUrl = [
-	'img/001.jpg',
-	'img/002.jpg',
-	'img/003.jpg',
-	'img/004.jpg'
-];
-
-$(function(){
-	suyp = new Suyp( $('#head .slider'), {
-		'slides': picturesUrl,
-		'crop': true,
-		'mode': 'fade'
-	});	
-});
+suyp = new Suyp( $('#suyp'), {
+	'slides': picturesUrl, // Array of urls
+	'crop': true, // true -> cover, false -> contain
+	'mode': 'slide-h', // Transition mode -> String
+	'auto': true, // Automatic slider ? 
+	'pictureDisplayTime': 1750, // Display time of each picture -> Number (ms) ex : 1000 = 1 sec
+	'transitionDuration': 750, // Duration of the transition between picts -> Number (ms) ex : 1000 = 1 sec
+	'transitionDelay': 250 // Delay between hiding the current pict and strat to display the prev / next picture -> Number (ms) ex : 1000 = 1 sec
+});	
 ```
 
 #### CREDITS :
