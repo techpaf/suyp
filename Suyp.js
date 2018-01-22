@@ -1,3 +1,7 @@
+/////////////////
+// CONSTRUCTOR //
+/////////////////
+
 var Suyp = function( $container, options ){
 	this.$container = $container;
 	this.$slideContainer = $container;
@@ -21,8 +25,11 @@ var Suyp = function( $container, options ){
 	this.buildDom();
 }
 
+////////////////////////////////////////////
+// CONTAINER CUSTOMIZATION + DOM CREATION //
+////////////////////////////////////////////
+
 Suyp.prototype.buildDom = function(){
-	// Containers customization / creation
 	this.$container.addClass('suyp');
 	this.$container.addClass( this.mode );
 	this.$container.append('<div class="slide-container ' + this.mode + '"></div>');
@@ -44,6 +51,10 @@ Suyp.prototype.buildDom = function(){
 	// Render
 	this.prepare();
 }
+
+////////////////////
+// BINDING EVENTS //
+////////////////////
 
 Suyp.prototype.bindEvents = function(){
 	var self = this;
@@ -88,6 +99,10 @@ Suyp.prototype.bindEvents = function(){
 	});
 }
 
+///////////////////////////
+// HANDLING NEXT && PREV //
+///////////////////////////
+
 Suyp.prototype.prev = function(){
 	var self = this;
 	
@@ -129,12 +144,20 @@ Suyp.prototype.next = function(){
 	self.render();
 }
 
+///////////////////
+// MODE SETTINGS //
+///////////////////
+
 Suyp.prototype.setMode = function( mode ){
 	this.mode = mode || 'fade';
 	this.$container.removeClass( 'raw fade slide-v slide-h zoom-in zoom-out rise' );
 	this.$container.addClass( mode );
 	this.prepare();
 }
+
+//////////////////////////////////////////////
+// RESET / SET SOME CSS PROPS ON DOM OBJECT //
+//////////////////////////////////////////////
 
 Suyp.prototype.prepare = function(){
 	var self = this;
@@ -343,6 +366,7 @@ Suyp.prototype.render = function(){
 	this.$container.find('.dots a').removeClass('selected');
 	this.$container.find('.dots a').eq(this.currentSlide).addClass('selected');
 
+	// If the window is focused and if the suyp instance is confirured to auto-run, then show the next pict
 	if( this.auto && this.windowFocused ){
 		if( this.loopTO ){
 			clearTimeout( this.loopTO );
