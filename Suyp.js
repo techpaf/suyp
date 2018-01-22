@@ -259,6 +259,10 @@ Suyp.prototype.prepare = function(){
 	self.render();
 }
 
+////////////////////////
+// RENDERING FUNCTION //
+////////////////////////
+
 Suyp.prototype.render = function(){
 	var self = this;
 
