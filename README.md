@@ -1,6 +1,10 @@
 ## S.U.Y.P (Show Us Your ~~Pugs~~ Picts)
 #### /!\ W.I.P • ~~even not an~~ alpha /!\
 
+#### ABOUT :
+SUYP is one more JS tool that helps you creating slideshow.
+The goal is to make something flexible, easy to customize, ready to use...
+
 #### HOW IT WORKS :
 See exemple.html for a full exemple, but in short you have to :
 - load suyp.css that defines some basic CSS rules • easy to customize
