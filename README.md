@@ -1,5 +1,5 @@
 ## S.U.Y.P (Show Us Your ~~Pugs~~ Picts)
-#### /!\ W.I.P, even not an alpha /!\
+#### /!\ W.I.P • ~~even not an~~ alpha /!\
 
 #### HOW IT WORKS :
 See exemple.html for a full exemple, but in short you have to :
@@ -15,9 +15,16 @@ suyp = new Suyp( $('#suyp'), {
 	'auto': true, // Automatic slider ? 
 	'pictureDisplayTime': 1750, // Display time of each picture -> Number (ms) ex : 1000 = 1 sec
 	'transitionDuration': 750, // Duration of the transition between picts -> Number (ms) ex : 1000 = 1 sec
-	'transitionDelay': 250 // Delay between hiding the current pict and strat to display the prev / next picture -> Number (ms) ex : 1000 = 1 sec
+	'transitionDelay': 250 // Delay between hiding the current pict and strat to display the prev / next picture -> Number (ms) ex : 1000 = 1 sec • NB : can be negative values
 });	
 ```
+
+#### DEPENDENCY :
+[jquery](https://jquery.com/)
+[gsap](https://greensock.com/gsap)
+
+#### TO DO :
+Improvements...Improvements everywhere.
 
 #### CREDITS :
 

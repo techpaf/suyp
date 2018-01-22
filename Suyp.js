@@ -16,6 +16,7 @@ var Suyp = function( $container, options ){
 	this.transitionDuration = options.transitionDuration || 500;
 	this.loopTO;
 	this.firstRender = true;
+	this.windowFocused = true;
 
 	this.buildDom();
 }
@@ -49,7 +50,17 @@ Suyp.prototype.bindEvents = function(){
 
 	// Updating dots
 	this.$container.find('.dots a').bind('click', function(e){
-		if( !self.auto || self.auto ){
+
+		if( $(this).index() != self.currentSlide ){
+			self.$container.trigger({
+				type: "slide-change",
+				datas: {
+					'direction': ($(this).index() < self.currentSlide)?'prev':'next',
+					'currentIndex': $(this).index()
+				},
+				time: new Date()
+			});
+
 			self.currentSlide = $(this).index();
 			self.render();
 		}
@@ -66,6 +77,15 @@ Suyp.prototype.bindEvents = function(){
 
 		e.preventDefault();
 	});
+
+	$(window).bind('focus', function(){
+		self.windowFocused = true;
+		self.render();
+	});
+
+	$(window).bind('blur', function(){
+		self.windowFocused = false;
+	});
 }
 
 Suyp.prototype.prev = function(){
@@ -75,6 +95,16 @@ Suyp.prototype.prev = function(){
 	if( self.currentSlide < 0 ){
 		self.currentSlide = self.$container.find('.slide').length-1;
 	}
+
+	self.$container.trigger({
+		type: "slide-change",
+		datas: {
+			'direction': 'prev',
+			'currentIndex': self.currentSlide
+		},
+		time: new Date()
+	});
+
 	self.render();
 }
 
@@ -86,6 +116,16 @@ Suyp.prototype.next = function(){
 		// TO DO : if self.
 		self.currentSlide = 0;
 	}
+
+	self.$container.trigger({
+		type: "slide-change",
+		datas: {
+			'direction': 'next',
+			'currentIndex': self.currentSlide
+		},
+		time: new Date()
+	});
+
 	self.render();
 }
 
@@ -301,7 +341,7 @@ Suyp.prototype.render = function(){
 	this.$container.find('.dots a').removeClass('selected');
 	this.$container.find('.dots a').eq(this.currentSlide).addClass('selected');
 
-	if( this.auto ){
+	if( this.auto && this.windowFocused ){
 		if( this.loopTO ){
 			clearTimeout( this.loopTO );
 		}
