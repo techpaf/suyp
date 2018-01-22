@@ -2,7 +2,7 @@
 #### /!\ W.I.P • ~~even not an~~ alpha /!\
 
 #### ABOUT :
-SUYP is one more JS tool that helps you creating slideshow.
+SUYP is one more JS tool that helps you to create slideshow.
 The goal is to make something flexible, easy to customize, ready to use...
 
 #### HOW IT WORKS :

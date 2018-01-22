@@ -15,12 +15,29 @@
 			/*width: 100vw;
 			height: 100vh;*/
 		}
+
+		#transitions{
+			position: absolute;
+			bottom: 100px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	</style>
 </head>
 <body>
 	<div id="suyp">
 		
 	</div>
+
+	<select id="transitions">
+		<option value="raw">RAW</option>
+		<option value="fade">FADE</option>
+		<option value="slide-h">SLIDE-H</option>
+		<option value="slide-v">SLIDE-V</option>
+		<option value="zoom-in">ZOOM-IN</option>
+		<option value="zoom-out">ZOOM-OUT</option>
+		<option value="rise">RISE</option>
+	</select>
 
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -45,7 +62,7 @@
 			'mode': 'zoom-in',
 			'mode': 'zoom-out',
 			'mode': 'rise',
-			'mode': 'zoom-out',
+			'mode': 'rise-reverted',
 			'auto': true,
 			'pictureDisplayTime': 1500,
 			'transitionDuration': 500,
@@ -54,7 +71,11 @@
 
 		suyp.$container.bind('slide-change', function(e){
 			console.log(e.datas);
-		})	
+		});
+
+		$('#transitions').bind('change', function(){
+			suyp.setMode( $('#transitions').val() );
+		})
 	</script>
 </body>
 </html>

@@ -131,6 +131,8 @@ Suyp.prototype.next = function(){
 
 Suyp.prototype.setMode = function( mode ){
 	this.mode = mode || 'fade';
+	this.$container.removeClass( 'raw fade slide-v slide-h zoom-in zoom-out rise' );
+	this.$container.addClass( mode );
 	this.prepare();
 }
 
