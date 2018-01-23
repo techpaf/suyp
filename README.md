@@ -11,7 +11,7 @@ See exemple.html for a full exemple, but in short you have to :
 - load suyp.js
 - instanciate the class like that :
 
-```
+```javascript
 suyp = new Suyp( $('#suyp'), {
 	'slides': picturesUrl, // Array of urls
 	'crop': true, // true -> cover, false -> contain
